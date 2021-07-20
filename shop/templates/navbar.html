@@ -1,0 +1,63 @@
+<!--navbar starts=====================--->
+<div class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+        <a class="nav-link" href="/">All Products</a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Brands
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for brand in brands %}
+          <a class="dropdown-item" href="{{url_for('get_brand', id = brand.id)}}">{{brand.name}}</a>
+            {% endfor %}
+        </div>
+      </li>
+
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categories
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for category in categories %}
+               <a class="dropdown-item" href="{{url_for('get_category', id = category.id)}}">{{category.name}}</a>
+            {% endfor %}
+        </div>
+      </li>
+
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+            <a href="" class="nav-link">{{ current_user.name }}</a>
+        </li>
+        <li class="nav-item">
+            <a href="{{url_for('customer_logout')}}" class="nav-link">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item btn btn-outline-success">
+            <a href="{{url_for('customerLogin')}}" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item btn btn-outline-success ml-3">
+            <a href="{{url_for('customer_register')}}" class="nav-link">Register</a>
+        </li>
+        {% endif %}
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{url_for('getCart')}}" tabindex="-1">Cart ({{session['Shoppingcart']|length}})</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+</div>
+
+
+<!--navbar ends=====================--->

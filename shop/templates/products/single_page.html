@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6" id="b_image">
+            <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}" width="400" height="400">
+        </div>
+        <div class="col-md-6">
+            <h4>Product name: {{ product.name }}</h4>
+            <hr>
+            <p>Product price: ${{ product.price }}</p>
+            {% if product.discount > 0 %}
+            <p>Product discount: {{ product.discount }} %</p>
+            {% endif %}
+            <hr>
+            <b>Product Description</b>
+            <p>{{product.desc}}</p>
+            <hr>
+            <form action="{{url_for('AddCart')}}" method="POST">
+                <input type="hidden" name="product_id" value="{{product.id}}">
+                <button type="submit" class="btn btn-sm btn-warning"> Add Cart</button>
+                <label for=""> Quantity: </label>
+                <input type="number" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+                {% set colors = product.colors.split(',') %}
+                <label for=""> Colors: </label>
+                <select name="colors" id="">
+                    {% for color in colors %}
+                    {% set col = color.split(':') %}
+                    <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+            </form>
+            {% for rate in ratings %}
+             {% if rate.Name == product.name %}
+              <div class="row">
+                  <div class="col-md-6">
+                    <h6>Comment - {{rate.text1}}</h6>
+                  </div>
+                 <!-- {% if rate.Rating == 1 %}
+                  <div class="row">
+                      <h6>Rating - </h6> <img src="{{url_for('static', filename='image/one star.png')}}" alt="One Star" width="150" height="25">
+                  </div>
+                  {% endif %} -->
+                  <h6>Rating - {{rate.Rating}}</h6>
+              </div>
+
+             {% endif %}
+            {% endfor %}
+            <a href="{{url_for('my_form', id=product.id)}}" class="btn btn-sm btn-success">Comment</a>
+
+
+
+
+         <!--   <h3>Comment</h3>
+            <form method="POST">
+              <textarea name="text1" placeholder="Say Something: ...." rows="5" cols="40"></textarea><br><br>
+
+              <input class="example_a" type="submit">
+            </form>
+            {% if final %}
+            <div>
+                <h2>The Sentiment of</h2> '{{ text1 }}' <h2>is {{ final }}% positive !</h2>
+                {% else %}
+                <p></p>
+                {% endif %}
+            </div>  -->
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <hr>
+        <div class="col-md-12 mt-3" id="s_image">
+            <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}" width="120" height="120" class="p-3">
+            <img src="{{url_for('static', filename='images/' + product.image_2)}}" alt="{{product.name}}" width="120" height="120" class="p-3">
+            <img src="{{url_for('static', filename='images/' + product.image_3)}}" alt="{{product.name}}" width="120" height="120" class="p-3">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}
